@@ -23,7 +23,7 @@ impl WattAnalyticsApi {
             access_token: auth.access_token
         })
     }
-
+    
 
     /// POST request to the auth API endpoint, 
     /// receives an access token & refresh token and an ID token (?)
@@ -47,8 +47,8 @@ impl WattAnalyticsApi {
         meter_id: u32, 
         depth: u32, 
         num_of_readings: u32,
-        from: DateTime<Local>, 
-        to: DateTime<Local>
+        from_ts: i64, 
+        to_ts: i64
     ) -> Result<PowerMeter> {
         let res = self.client
             .get(format!("{WA_API_URL}/power/meter/{meter_id}/bundle"))
@@ -56,8 +56,8 @@ impl WattAnalyticsApi {
             .query(&[
                 ("depth", depth.to_string()),
                 ("count", num_of_readings.to_string()),
-                ("fromTime", from.timestamp_millis().to_string()),
-                ("toTime", to.timestamp_millis().to_string())
+                ("fromTime", from_ts.to_string()),
+                ("toTime", to_ts.to_string())
             ])
             .send()
             .await?

@@ -33,8 +33,8 @@ async fn main() -> Result<()> {
             &env::var("METER_ID").unwrap(), 
             1, 
             1, 
-            Local::now(), 
-            Local::now().checked_add_signed(Duration::milliseconds(100000)).unwrap() // So that atleast 1 reading will be shown
+            Local::now().timestamp_millis(), 
+            Local::now().timestamp_millis() + 10000 // So that atleast 1 reading will be shown
             )
         .await?
         .power_data;
