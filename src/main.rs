@@ -34,12 +34,12 @@ async fn main() -> Result<()> {
             1, 
             1, 
             Local::now(), 
-            Local::now().checked_add_signed(Duration::milliseconds(10000)).unwrap()
+            Local::now().checked_add_signed(Duration::milliseconds(100000)).unwrap() // So that atleast 1 reading will be shown
             )
         .await?
         .power_data;
 
-    db.write_home_power_usage(data.first().unwrap())?;
+    db.write_home_power_usage(data.first().expect("No data!"))?;
 
     Ok(())
 }

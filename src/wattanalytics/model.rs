@@ -16,7 +16,8 @@ pub struct PowerMeter {
     /// Timestamp
     pub server_ts: u64,
     pub power_data: Vec<PowerData>,
-    pub solar_data: Vec<()>
+    pub solar_data: Vec<()>,
+    pub battery_data: Vec<()>
 }
 
 #[derive(Deserialize)]

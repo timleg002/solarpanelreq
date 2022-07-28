@@ -33,6 +33,7 @@ impl WattAnalyticsApi {
         let res = client
             .post(format!("{WA_API_URL}/auth/login"))
             .basic_auth(username, Some(password))
+            .json("") // Forces the content type to json, else it will not work
             .send()
             .await?
             .json::<Auth>()
