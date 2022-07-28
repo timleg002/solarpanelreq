@@ -1,5 +1,5 @@
 use anyhow::Result;
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, Date};
 
 use super::model::{Auth, PowerMeter};
 
@@ -47,8 +47,8 @@ impl WattAnalyticsApi {
         meter_id: u32, 
         depth: u32, 
         num_of_readings: u32,
-        from_ts: i64, 
-        to_ts: i64
+        from: DateTime<Local>,
+        to: DateTime<Local>
     ) -> Result<PowerMeter> {
         let res = self.client
             .get(format!("{WA_API_URL}/power/meter/{meter_id}/bundle"))
@@ -56,8 +56,8 @@ impl WattAnalyticsApi {
             .query(&[
                 ("depth", depth.to_string()),
                 ("count", num_of_readings.to_string()),
-                ("fromTime", from_ts.to_string()),
-                ("toTime", to_ts.to_string())
+                ("fromTime", from.timestamp_millis().to_string()),
+                ("toTime", to_ts.timestamp_millis().to_string())
             ])
             .send()
             .await?
