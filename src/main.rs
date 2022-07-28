@@ -30,7 +30,7 @@ async fn main() -> Result<()> {
 
     let data = wa
         .get_power_meter_data(
-            &env::var("METER_ID").unwrap(), 
+            &env::var("METER_ID").unwrap().parse(), 
             1, 
             1, 
             Local::now().timestamp_millis(), 
