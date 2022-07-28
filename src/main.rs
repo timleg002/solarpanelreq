@@ -33,8 +33,8 @@ async fn main() -> Result<()> {
             env::var("METER_ID")?.parse()?, 
             1, 
             1, 
-            Local::now(), 
-            Local::now() + Duration::milliseconds(100_000) // So that atleast 1 reading will be shown
+            Local::now() - Duration::milliseconds(10_000),  // So that atleast 1 reading will be shown
+            Local::now() 
             )
         .await?
         .power_data;
