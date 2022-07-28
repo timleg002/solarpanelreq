@@ -15,22 +15,22 @@ use wattanalytics::api::WattAnalyticsApi;
 async fn main() -> Result<()> {
     dotenv::dotenv()?;
 
-    let solax = SolaxApi::init(&env::var("TOKEN_ID").unwrap(), &env::var("SITE_ID").unwrap());
+    let solax = SolaxApi::init(&env::var("TOKEN_ID")?, &env::var("SITE_ID")?);
 
     let power = solax.get_inverter_power().await?;
 
-    let mut db = Db::init(&env::var("MYSQL_DB_URL").unwrap())?;
+    let mut db = Db::init(&env::var("MYSQL_DB_URL")?)?;
 
     db.write_inverter_power(&power)?;
 
     let wa = WattAnalyticsApi::init(
-        &env::var("WA_USERNAME").unwrap(), 
-        &env::var("WA_PASSWORD").unwrap()
+        &env::var("WA_USERNAME")?, 
+        &env::var("WA_PASSWORD")?
     ).await?;
 
     let data = wa
         .get_power_meter_data(
-            &env::var("METER_ID").unwrap().parse(), 
+            env::var("METER_ID")?.parse()?, 
             1, 
             1, 
             Local::now().timestamp_millis(), 
